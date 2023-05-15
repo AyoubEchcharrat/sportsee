@@ -1,0 +1,35 @@
+.keydata-card{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color:#FBFBFB;
+    width: 100%;
+    padding: 30px 0;
+    margin:0 0 40px 0;
+    border-radius: 5px;
+}
+.keydata-value-container{
+    padding-left: 20px;
+    width: 100px;
+}
+
+.keydata-value-text{
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.keydata-value-type{
+    font-weight: 500;
+    font-size: 14px;
+    color:#74798C
+}
+
+
+
+
+@media screen and (max-width:1440px) {
+    .keydata-card {
+        padding: 20px 0;
+        margin: 0 0 15px 0;
+    }
+  }

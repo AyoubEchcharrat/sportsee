@@ -1,0 +1,35 @@
+.activityTypes-container{
+    width: 260px;
+    height: 260px;
+    background-color: #282D30;
+    position: relative;
+    border-radius: 5px ;
+}
+
+.recharts-text.recharts-polar-angle-axis-tick-value {
+    font-size: 12px;
+    fill: white;
+    font-weight: 500;
+}
+
+g.recharts-polar-grid-angle line {
+    stroke: inherit;
+}
+
+
+@media screen and (max-width:1440px) {
+    .activityTypes-container {
+        width: 230px;
+        height: 200px;
+    }
+}
+
+@media screen and (max-width:1024px) {
+    .activityTypes-container {
+        width: 200px;
+        height: 200px;
+    }
+    .recharts-text.recharts-polar-angle-axis-tick-value {
+        font-size: 10px;
+    }
+}

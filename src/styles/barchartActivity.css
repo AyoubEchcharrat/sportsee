@@ -1,5 +1,45 @@
-.recharts-default-legend {
-    position: absolute;
-    top: -285px;
-    right: 61px;
+.tooltip-container{
+    background-color: red;
+
 }
+.label{
+    font-size:12px;
+    color:white;
+    padding:12px 15px;
+}
+
+.recharts-legend-item-text{
+    font-size: 14px;
+    color: #74798C!important;
+}
+
+.recharts-tooltip-wrapper:focus{
+    outline:none
+}
+
+.recharts-cartesian-axis-ticks {
+    font-size: 14px;
+}
+
+
+.title-activity{
+    position:relative;
+    top:-20px;
+    left:60px;
+    font-size:15px;
+    font-weight: 500;
+}
+
+.daily-activity-container{
+    padding-top: 30px;
+    width: 95%;
+    height:350px;
+    background: #fbfbfb;
+}
+
+
+@media screen and (max-width:1440px) {
+    .daily-activity-container{
+        height:200px;
+    }
+  }

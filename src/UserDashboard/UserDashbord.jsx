@@ -6,7 +6,6 @@ import Score from './Score';
 import ActivityTypes from './ActivityTypes';
 import AverageSessionsDuration from './AverageSessionsDuration';
 import ErrorPage from './Error';
-import UseFetch from '../Hooks/UseFetch';
 
 function getCurrentURL () {
     var pathArray = window.location.pathname.slice(1).split('/')
@@ -27,13 +26,13 @@ function getUserActivity(id){
 
 function getDataOfUser(id) {
     const typeOfData = ''
-    let getUrl
-     if (process.env.NODE_ENV === 'development'){
-        getUrl = '/users/data-user-'+id+'.json'
+    let getData
+    if (process.env.NODE_ENV === 'development'){
+        getData = mockedCall(id,typeOfData)
     }else if(process.env.NODE_ENV === 'production'){
-        getUrl = 'http://localhost:9000/user/'+id
+        getData = APIcall(id,typeOfData)
     }
-    return getUrl
+    return getData
 }
 
 
@@ -85,29 +84,20 @@ function CheckIfIdCorrect(){
     const pathArray = getCurrentURL()
     const id = Number(pathArray[1])
     const typeOfData = ''
-    let isIdCorrect = UseFetch(id)
-    console.log(isIdCorrect)
+    let isIdCorrect
 
-    return isIdCorrect ?   UserDashboard(id)  : <ErrorPage/> //UserDashboard(id)
+    const getData = () => {APIcall(id,typeOfData).then(call => UseCall(call))}
+    console.log(call)
+    
+
+    return isIdCorrect ?   console.log(isIdCorrect)  : <ErrorPage/> //UserDashboard(id)
 }
 
 
-/*     useEffect(() => {
-        if (process.env.NODE_ENV === 'development'){
-            const fetchData = async () => {
-                APIcall(id,typeOfData)
-                .then(resp => UseCall(resp))
-            }
-            fetchData()
 
-        }else if(process.env.NODE_ENV === 'production'){
-            //console.log(process.env.NODE_ENV)
-            //isIdCorrect = APIcall(id,typeOfData)
-        }
-    }) */
 
 function UserDashboard(id) {
-    const dataOfUser = UseFetch('/users/data-user-'+id+'.json')  //UseFetch(getDataOfUser(id))
+    const dataOfUser = getDataOfUser(id)
     const userActivity = getUserActivity(id)
     const nameOfUser = dataOfUser.data.userInfos.firstName
     const TypeOfActivity = getTypeOfActivity(id)

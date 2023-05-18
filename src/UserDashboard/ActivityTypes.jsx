@@ -2,8 +2,8 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } fro
 import '../styles/ActivityTypes.css'
 
 export default function ActivityTypes({TypeOfActivity}) {
-    const valueOfEachData = TypeOfActivity.data.data
-    let nameOfEachData = TypeOfActivity.data.kind
+    const valueOfEachData = TypeOfActivity?.data.data   //HERE
+    let nameOfEachData = TypeOfActivity?.data.kind  //HERE
     nameOfEachData = Object.values(nameOfEachData).map(name => {
         if(name === 'intensity'){
             name = 'Intensité'

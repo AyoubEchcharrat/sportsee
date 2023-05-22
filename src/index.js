@@ -2,16 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import UserDashboard from './UserDashboard/UserDashbord';
+import UserDashboard, { dataLoader } from './UserDashboard/UserDashbord';
 import ErrorPage from './UserDashboard/ErrorPage';
 import Layout from './Layout/Layout';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
       <Route
-        path="/user/*"
+        path="/user/:id"
         element={<UserDashboard />}
+        loader={dataLoader}
         errorElement={<ErrorPage />}
       />
     </Route>

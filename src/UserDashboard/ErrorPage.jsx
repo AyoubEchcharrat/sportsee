@@ -8,7 +8,7 @@ export default function ErrorPage() {
 
     return <div className="errorPage-container">
         <div className="errorPage-title">404</div>
-        <div className="errorPage-text">Cette page n'est pas disponible</div>
-        <p><i>{error.statusText || error.message}</i></p>
+        <div className="errorPage-text">Une erreur s'est produite</div>
+        <p><i>{ error.message  || error.statusText }</i></p>
     </div>
 }

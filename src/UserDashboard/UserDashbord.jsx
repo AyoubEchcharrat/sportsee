@@ -6,11 +6,7 @@ import ActivityTypes from "./ActivityTypes";
 import AverageSessionsDuration from "./AverageSessionsDuration";
 import UseFetch from "../Hooks/UseFetch";
 import '../App.css';
-
-function getCurrentURL() {
-  var pathArray = window.location.pathname.slice(1).split("/");
-  return pathArray;
-}
+import { useParams } from "react-router-dom";
 
 function getUserURL(id,endpoint) {
   let getUrl;
@@ -26,15 +22,63 @@ function getUserURL(id,endpoint) {
   return getUrl;
 }
 
+export const dataLoader = async ({ params }) => {
+  const res = await fetch(getUserURL(params.id,''), { headers: { 'Content-Type': 'application/json', Accept: 'application/json' } })
+  if(!res.ok){
+    return Promise.reject(new Error("La page n'est pas disponible"))
+  }
+  const data = await res.json();
+  return { data };
+}
+
+// CLASSE QUI FORMATE LES DATA
+class dataModelization {
+  constructor(url,endpoint){
+    this.url = url
+    this.endpoint = endpoint
+  }
+
+  get username () {
+    const Fetch = UseFetch(this.url)
+    const user = Fetch.data?.userInfos.firstName;
+    return user
+  }
+
+  get userData () {
+    const Fetch = UseFetch(this.url)
+    const userdata = Fetch?.data;
+    return userdata
+  }
+
+  get activity () {
+    const Fetch = UseFetch(this.url)
+    const activity = Fetch?.data
+    return activity
+  }
+
+  get performance () {
+    const Fetch = UseFetch(this.url)
+    const performance = Fetch?.data
+    return performance
+  }
+
+}
+
 function UserDashboard() {
-  const pathArray = getCurrentURL();
-  const {id} = Number(pathArray[1]);
-  const dataOfUser = UseFetch(getUserURL(id,''));
-  const getActivity = UseFetch(getUserURL(id,'activity'));
-  const userActivity = getActivity?.data //HERE
-  const nameOfUser = dataOfUser.data?.userInfos.firstName;
-  const getPerformance = UseFetch(getUserURL(id,'performance'));
-  const userPerformance = getPerformance?.data
+  const {id} = useParams()
+  console.log(id)
+  const getActivity = new dataModelization(getUserURL(id,'activity'))
+  const userActivity = getActivity.activity
+
+  const getdataOfUser = new dataModelization(getUserURL(id,''))
+  const dataOfUser = getdataOfUser.userData
+  console.log(dataOfUser)
+
+  const getNameOfUser =  new dataModelization(getUserURL(id,''))
+  const nameOfUser = getNameOfUser.username
+
+  const getPerformance = new dataModelization(getUserURL(id,'performance'))
+  const userPerformance = getPerformance.performance
   const getAverageActivity = UseFetch(getUserURL(id,'average-sessions'));
   const userAverageActivity = getAverageActivity?.data
 
@@ -54,16 +98,16 @@ function UserDashboard() {
       <div className="right-block">
         <div className="keyData-card-container">
           <KeyDataCard type="Calories">
-            {dataOfUser?.data?.keyData.calorieCount.toLocaleString("en-US")}
+            {dataOfUser?.keyData.calorieCount.toLocaleString("en-US")}
           </KeyDataCard>
           <KeyDataCard type="Protéines">
-            {dataOfUser?.data?.keyData.proteinCount.toLocaleString("en-US")}
+            {dataOfUser?.keyData.proteinCount.toLocaleString("en-US")}
           </KeyDataCard>
           <KeyDataCard type="Glucides">
-            {dataOfUser?.data?.keyData.carbohydrateCount.toLocaleString("en-US")}
+            {dataOfUser?.keyData.carbohydrateCount.toLocaleString("en-US")}
           </KeyDataCard>
           <KeyDataCard type="Lipides">
-            {dataOfUser?.data?.keyData.lipidCount.toLocaleString("en-US")}
+            {dataOfUser?.keyData.lipidCount.toLocaleString("en-US")}
           </KeyDataCard>
         </div>
       </div>

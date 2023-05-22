@@ -2,7 +2,7 @@ import {RadialBarChart,PolarAngleAxis, RadialBar, ResponsiveContainer,Legend} fr
 import '../styles/Score.css'
 
 export default function Score({dataOfUser}){
-    const todayScore = (dataOfUser?.todayScore ? dataOfUser?.todayScore* 100 : dataOfUser?.data?.score* 100)
+    const todayScore = (dataOfUser?.todayScore ? dataOfUser?.todayScore* 100 : dataOfUser?.score* 100)
     const data = [
         { name: "Day's score" , value : todayScore,fill:"red" },
     ]

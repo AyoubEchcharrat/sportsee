@@ -10,15 +10,18 @@ import { useParams } from "react-router-dom";
 
 function getUserURL(id,endpoint) {
   let getUrl;
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === "production") {
     if(endpoint){
       endpoint = '-'+endpoint
     }
     getUrl = "/users/data-user-" + id + endpoint+".json";
     return getUrl
+  }else if(process.env.NODE_ENV === "development") {
+
+    getUrl = "http://localhost:9000/user/" + id +'/'+endpoint
+    console.log(getUrl)
   }
-  getUrl = "http://localhost:9000/user/" + id +'/'+endpoint+''
-  console.log(getUrl)
+
   return getUrl;
 }
 

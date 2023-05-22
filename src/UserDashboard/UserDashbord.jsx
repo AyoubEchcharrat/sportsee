@@ -1,85 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import BarChartActivity from "./BarChartActivity";
-import { mockedCall, APIcall } from "../APIcalls/APIcalls";
 import KeyDataCard from "./KeyDataCard";
 import Score from "./Score";
 import ActivityTypes from "./ActivityTypes";
 import AverageSessionsDuration from "./AverageSessionsDuration";
-import ErrorPage from "./Error";
 import UseFetch from "../Hooks/UseFetch";
+import '../App.css';
 
 function getCurrentURL() {
   var pathArray = window.location.pathname.slice(1).split("/");
   return pathArray;
 }
 
-function getUserActivity(id) {
+function getUserURL(id,endpoint) {
   let getUrl;
   if (process.env.NODE_ENV === "development") {
-
-    getUrl = "/users/data-user-" + id + "-activity.json";
-  } else if (process.env.NODE_ENV === "production") {
-    getUrl = "http://localhost:9000/user/" + id +'/activity'
+    if(endpoint){
+      endpoint = '-'+endpoint
+    }
+    getUrl = "/users/data-user-" + id + endpoint+".json";
+    return getUrl
   }
+  getUrl = "http://localhost:9000/user/" + id +'/'+endpoint+''
   console.log(getUrl)
   return getUrl;
 }
 
-function getDataOfUser(id) {
-  const typeOfData = "";
-  let getUrl;
-  if (process.env.NODE_ENV === "development") {
-    getUrl = "/users/data-user-" + id + ".json";
-  } else if (process.env.NODE_ENV === "production") {
-    getUrl = "http://localhost:9000/user/" + id;
-  }
-  return getUrl;
-}
-
-function getTypeOfActivity(id) {
-  const typeOfData = "performance";
-  let TypeOfActivity;
-  if (process.env.NODE_ENV === "development") {
-    TypeOfActivity = mockedCall(id, typeOfData);
-  } else if (process.env.NODE_ENV === "production") {
-    TypeOfActivity = APIcall(id, typeOfData);
-  }
-
-  return TypeOfActivity;
-}
-
-function getAverageActivity(id) {
-  const typeOfData = "average-sessions";
-  let averageActivity;
-  if (process.env.NODE_ENV === "development") {
-    averageActivity = mockedCall(id, typeOfData);
-  } else if (process.env.NODE_ENV === "production") {
-    averageActivity = APIcall(id, typeOfData);
-  }
-
-  return averageActivity;
-}
-
-function CheckIfIdCorrect() {
-    return <UserDashboard/>
-}
-
-
 function UserDashboard() {
-    const pathArray = getCurrentURL();
-    const id = Number(pathArray[1]);
-    const url = "/users/data-user-" + id + ".json"
-
-  const dataOfUser = UseFetch(url);
-  const getActivity = UseFetch(getUserActivity(id));
+  const pathArray = getCurrentURL();
+  const {id} = Number(pathArray[1]);
+  const dataOfUser = UseFetch(getUserURL(id,''));
+  const getActivity = UseFetch(getUserURL(id,'activity'));
   const userActivity = getActivity?.data //HERE
-  console.log(userActivity)
   const nameOfUser = dataOfUser.data?.userInfos.firstName;
-  const TypeOfActivity = getTypeOfActivity(id);
-  const averageActivity = getAverageActivity(id);
+  const getPerformance = UseFetch(getUserURL(id,'performance'));
+  const userPerformance = getPerformance?.data
+  const getAverageActivity = UseFetch(getUserURL(id,'average-sessions'));
+  const userAverageActivity = getAverageActivity?.data
 
   return (
-    nameOfUser ? 
     <div className="dashboard-container">
       <h1 className="dashboard-title">
         Bonjour <span style={{ color: "red" }}>{nameOfUser}</span>
@@ -87,8 +46,8 @@ function UserDashboard() {
       <div className="left-block">
         <BarChartActivity userActivity={userActivity} />
         <div className="sub-activity-container">
-          <AverageSessionsDuration averageActivity={averageActivity} />
-          <ActivityTypes TypeOfActivity={TypeOfActivity} />
+          <AverageSessionsDuration averageActivity={userAverageActivity} />
+          <ActivityTypes userPerformance={userPerformance} />
           <Score dataOfUser={dataOfUser} />
         </div>
       </div>
@@ -101,9 +60,7 @@ function UserDashboard() {
             {dataOfUser?.data?.keyData.proteinCount.toLocaleString("en-US")}
           </KeyDataCard>
           <KeyDataCard type="Glucides">
-            {dataOfUser?.data?.keyData.carbohydrateCount.toLocaleString(
-              "en-US"
-            )}
+            {dataOfUser?.data?.keyData.carbohydrateCount.toLocaleString("en-US")}
           </KeyDataCard>
           <KeyDataCard type="Lipides">
             {dataOfUser?.data?.keyData.lipidCount.toLocaleString("en-US")}
@@ -111,8 +68,7 @@ function UserDashboard() {
         </div>
       </div>
     </div>
-  : <ErrorPage/>
   )
 }
 
-export default CheckIfIdCorrect;
+export default UserDashboard;

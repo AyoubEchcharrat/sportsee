@@ -1,10 +1,9 @@
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
 import '../styles/ActivityTypes.css'
 
-export default function ActivityTypes({TypeOfActivity}) {
-    const valueOfEachData = TypeOfActivity?.data.data   //HERE
-    let nameOfEachData = TypeOfActivity?.data.kind  //HERE
-    nameOfEachData = Object.values(nameOfEachData).map(name => {
+export default function ActivityTypes({userPerformance}) {
+    const mapOfKinds = userPerformance ? userPerformance.kind : {}  //HERE
+    let nameOfEachData = Object.values(mapOfKinds)?.map(name => {
         if(name === 'intensity'){
             name = 'Intensité'
         }
@@ -26,7 +25,7 @@ export default function ActivityTypes({TypeOfActivity}) {
         return name
     }) 
 
-    const data = valueOfEachData.map((value,index) => {
+    const data = userPerformance?.data.map((value,index) => {
         return {'value':value.value,'kind':nameOfEachData[index]}
     },[])
     

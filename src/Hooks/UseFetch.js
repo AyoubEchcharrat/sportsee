@@ -9,11 +9,11 @@ function UseFetch(url) {
                 if (resp.ok) {
                     return resp.json()
                 }
-                return '404'
+                throw Error("Cette page n'existe pas")
             })
             .then(items => { setData(items) })
             .catch(function () {
-                console.log("error");
+                throw Error("Cette page n'existe pas")
             });
     }, [url])
     console.log(data)

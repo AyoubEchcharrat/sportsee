@@ -4,7 +4,7 @@ import '../styles/barchartActivity.css'
 
 function BarChartActivity({userActivity}) {
     const data = userActivity
-  
+
     const renderCustomAxisTick = ({payload,x,y}) => {
       return <text fill='#9B9EAC' x={x - 5} y={y + 15}>{payload.index + 1}</text>
     }   
@@ -23,6 +23,9 @@ function BarChartActivity({userActivity}) {
     }
 
     return (
+      Object.keys(data).length === 0 ? 
+        <div className="daily-activity-container"></div> 
+        :
         <div className="daily-activity-container">  
           <h2 className='title-activity'>Activité quotidienne</h2>
           <ResponsiveContainer width='100%' height='100%' >

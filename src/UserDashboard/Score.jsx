@@ -1,8 +1,8 @@
 import {RadialBarChart,PolarAngleAxis, RadialBar, ResponsiveContainer,Legend} from 'recharts'
 import '../styles/Score.css'
 
-export default function Score({dataOfUser}){
-    const todayScore = (dataOfUser?.todayScore ? dataOfUser?.todayScore* 100 : dataOfUser?.score* 100)
+export default function Score({score}){
+    const todayScore = score
     const data = [
         { name: "Day's score" , value : todayScore,fill:"red" },
     ]

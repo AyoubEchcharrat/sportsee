@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
-import UserDashboard, { dataLoader } from './UserDashboard/UserDashbord';
-import ErrorPage from './UserDashboard/ErrorPage';
-import Layout from './Layout/Layout';
+import UserDashboard from './userDashboard/UserDashbord';
+import ErrorPage from './userDashboard/ErrorPage';
+import Layout from './layout/Layout';
+import { dataLoader } from './utility/Index';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

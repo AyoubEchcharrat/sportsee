@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState,useEffect } from 'react';
 import BarChartActivity from './BarChartActivity';
 import { mockedCall, APIcall } from '../APIcalls/APIcalls';
@@ -6,24 +7,35 @@ import Score from './Score';
 import ActivityTypes from './ActivityTypes';
 import AverageSessionsDuration from './AverageSessionsDuration';
 import ErrorPage from './Error';
+=======
+//Utils
+import React from "react";
+import { useParams } from "react-router-dom";
+import '../App.css';
+//Pages
+import BarChartActivity from "./BarChartActivity";
+import KeyDataCard from "./KeyDataCard";
+import Score from "./Score";
+import ActivityTypes from "./ActivityTypes";
+import AverageSessionsDuration from "./AverageSessionsDuration";
+import { getUserURL,DataModelization } from "../utility/Index";
+>>>>>>> method-Loader-React-router
 
-function getCurrentURL () {
-    var pathArray = window.location.pathname.slice(1).split('/')
-    return pathArray
-}
+function UserDashboard() {
+  const {id} = useParams()
 
-function getUserActivity(id){  
-    const typeOfData = 'activity'
-    let dataActivity
-    if (process.env.NODE_ENV === 'development'){
-        dataActivity = mockedCall(id,typeOfData)
-    }else if(process.env.NODE_ENV === 'production'){
-        dataActivity = APIcall(id,typeOfData)
-    }
+  const dataObjectInfos =  new DataModelization(getUserURL(id,''))
+  const nameOfUser = dataObjectInfos.getUsername()
+  const score = dataObjectInfos.getScore()
+  const userNutrients = dataObjectInfos.getNutrients()
 
-    return dataActivity
-}
+  const dataActivity = new DataModelization(getUserURL(id,'activity'))
+  const userActivity = dataActivity.getActivity()
+  console.log(userActivity)
+  const dataAverageSessions =new DataModelization(getUserURL(id,'average-sessions'))
+  const userAverageSessions = dataAverageSessions.getAverageSessions()
 
+<<<<<<< HEAD
 function getDataOfUser(id) {
     const typeOfData = ''
     let getData
@@ -131,8 +143,43 @@ function UserDashboard(id) {
                 </div>
             </div>
             
+=======
+  const dataPerformance = new DataModelization(getUserURL(id,'performance'))
+  const userPerformance = dataPerformance.getPerformance()
+
+
+  return (
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">
+        Bonjour <span style={{ color: "red" }}>{nameOfUser}</span>
+      </h1>
+      <div className="left-block">
+        <BarChartActivity userActivity={userActivity} />
+        <div className="sub-activity-container">
+          <AverageSessionsDuration userAverageSessions={userAverageSessions} />
+          <ActivityTypes userPerformance={userPerformance} />
+          <Score score={score} />
+>>>>>>> method-Loader-React-router
         </div>
-    )
+      </div>
+      <div className="right-block">
+        <div className="keyData-card-container">
+          <KeyDataCard type="Calories">
+            {userNutrients?.keyData.calorieCount.toLocaleString("en-US")}
+          </KeyDataCard>
+          <KeyDataCard type="Protéines">
+            {userNutrients?.keyData.proteinCount.toLocaleString("en-US")}
+          </KeyDataCard>
+          <KeyDataCard type="Glucides">
+            {userNutrients?.keyData.carbohydrateCount.toLocaleString("en-US")}
+          </KeyDataCard>
+          <KeyDataCard type="Lipides">
+            {userNutrients?.keyData.lipidCount.toLocaleString("en-US")}
+          </KeyDataCard>
+        </div>
+      </div>
+    </div>
+  )
 }
 
-export default CheckIfIdCorrect;
+export default UserDashboard;

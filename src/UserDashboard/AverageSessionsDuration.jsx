@@ -1,8 +1,8 @@
 import '../styles/AverageSessionsDuration.css'
 import { LineChart, Line , Tooltip, ResponsiveContainer } from 'recharts'
 
-export default function AverageSessionsDuration({averageActivity}){
-    const data = averageActivity.data.sessions
+export default function AverageSessionsDuration({userAverageSessions}){
+    const data = userAverageSessions
     const renderTooltip = ({payload,active}) => {
         if (active){
           return <div className='tooltipAverageSessions-container'>
@@ -11,7 +11,9 @@ export default function AverageSessionsDuration({averageActivity}){
         }
     }
 
-    return (
+    return ( Object.keys(data).length === 0 ? 
+    <div className="averageSessionsDuration-container"></div>
+    :
     <div className="averageSessionsDuration-container">
         <ResponsiveContainer width="100%" height="100%">
             <LineChart width={260} height={100} data={data} 

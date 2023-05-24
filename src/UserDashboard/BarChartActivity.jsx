@@ -23,10 +23,13 @@ function BarChartActivity({userActivity}) {
     }
 
     return (
+      Object.keys(data).length === 0 ? 
+        <div className="daily-activity-container"></div> 
+        :
         <div className="daily-activity-container">  
           <h2 className='title-activity'>Activité quotidienne</h2>
           <ResponsiveContainer width='100%' height='100%' >
-              <BarChart data={data.data.sessions}
+              <BarChart data={data?.sessions} //HERE 
                 margin={{
                   top: 5,
                   right: 0,
